@@ -1,0 +1,20 @@
+{
+  "name": "streaminal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npm install webtorrent-cli -g"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "inquirer": "^8.2.2",
+    "node-fetch": "^2.6.7"
+  },
+  "bin": {
+    "streaminal": "./bin/index.js"
+  }
+}
