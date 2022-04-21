@@ -4,7 +4,7 @@ const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const exec = require("child_process").exec;
 const inquirer = require('inquirer');
-const fs = require('fs');
+var rimraf = require("rimraf");
 const tempDir = 'temp';
 
 let ctx = {};
@@ -21,13 +21,13 @@ async function getData(query) {
 		let magnet = $($(el).find("td").get(3)).find("a").attr("href");
 		let seeders = $($(el).find("td").get(5)).text().trim();
 		let leechers = $($(el).find("td").get(6)).text().trim();
-		ctx[name] = {magnet, seeders, leechers};
+		ctx[name] = { magnet, seeders, leechers };
 	})
 }
 
 function deleteTemp(dir) {
 	try {
-		fs.rmdirSync(dir, { recursive: true });
+		rimraf.sync(dir);
 	} catch (err) {
 		console.error(`Error while deleting ${dir}.`);
 	}
@@ -64,16 +64,16 @@ async function main() {
 	await getData(query);
 
 	answers = await inquirer
-	.prompt([
-	  {
-		type: 'list',
-		name: 'choice',
-		message: 'Select a file to play >',
-		choices: Object.keys(ctx),
-	  },
-	])
+		.prompt([
+			{
+				type: 'list',
+				name: 'choice',
+				message: 'Select a file to play >',
+				choices: Object.keys(ctx),
+			},
+		])
 
-	let choice  = answers.choice;
+	let choice = answers.choice;
 	playFile(choice);
 }
 
