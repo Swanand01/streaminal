@@ -61,7 +61,12 @@ async function main() {
 
 	let query = answers.query;
 	if (!query) return;
+	
 	await getData(query);
+	if (Object.keys(ctx).length === 0){
+		console.log("No results found");
+		return;
+	}
 
 	answers = await inquirer
 		.prompt([
