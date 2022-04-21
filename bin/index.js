@@ -4,7 +4,10 @@ const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const exec = require("child_process").exec;
 const inquirer = require('inquirer');
-var rimraf = require("rimraf");
+const rimraf = require("rimraf");
+const figlet = require('figlet');
+const gradient = require('gradient-string');
+
 const tempDir = 'temp';
 
 let ctx = {};
@@ -36,20 +39,28 @@ function deleteTemp(dir) {
 
 function playFile(choice) {
 	console.log("Playing", choice);
-	exec(`webtorrent "${ctx[choice].magnet}" --vlc -o "temp"`, (error, stdout, stderr) => {
+	exec(`webtorrent "${ctx[choice].magnet}" --vlc -o "temp" -q`, (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
-			return;
+			return; // Change to process.exit(1) ?
 		}
 		if (stderr) {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		console.log(`stdout: ${stdout}`);
+		console.log("Exiting...");
 	});
 }
 
+function showBanner() {
+	console.log(gradient.retro(figlet.textSync('Streaminal', {
+		horizontalLayout: 'fitted',
+		verticalLayout: 'default',
+	})));
+}
+
 async function main() {
+	showBanner();
 	deleteTemp(tempDir);
 	let answers = await inquirer
 		.prompt([
@@ -61,9 +72,9 @@ async function main() {
 
 	let query = answers.query;
 	if (!query) return;
-	
+
 	await getData(query);
-	if (Object.keys(ctx).length === 0){
+	if (Object.keys(ctx).length === 0) {
 		console.log("No results found");
 		return;
 	}
