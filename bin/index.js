@@ -2,7 +2,7 @@
 
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
-const exec = require("child_process");
+const exec = require("child_process").exec;
 const inquirer = require('inquirer');
 const fs = require('fs');
 const tempDir = 'temp';
