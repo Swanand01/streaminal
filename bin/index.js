@@ -19,7 +19,7 @@ async function getData(query) {
 	const $ = cheerio.load(data);
 	const searchResults = $("#searchResult")
 	const tbody = searchResults.find("tbody");
-	$(tbody).find("tr").slice(0, 5).each((i, el) => {
+	$(tbody).find("tr").slice(0, 10).each((i, el) => {
 		let name = $($(el).find("td").get(1)).text().trim();
 		let magnet = $($(el).find("td").get(3)).find("a").attr("href");
 		let seeders = $($(el).find("td").get(5)).text().trim();
