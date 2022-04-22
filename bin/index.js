@@ -54,7 +54,7 @@ function playFile(choice) {
 
 function showBanner() {
 	console.log(gradient.retro(figlet.textSync('Streaminal', {
-		horizontalLayout: 'fitted',
+		horizontalLayout: 'default',
 		verticalLayout: 'default',
 	})));
 }
@@ -85,7 +85,9 @@ async function main() {
 				type: 'list',
 				name: 'choice',
 				message: 'Select a file to play >',
-				choices: Object.keys(ctx),
+				choices: Object.keys(ctx).map((torr) => {
+					return torr + " SE: " + ctx[torr].seeders + " LE: " + ctx[torr].leechers
+				}),
 			},
 		])
 
