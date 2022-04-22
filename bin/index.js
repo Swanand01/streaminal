@@ -10,7 +10,7 @@ const gradient = require('gradient-string');
 
 const tempDir = 'temp';
 
-let ctx = {};
+let ctx = [];
 
 
 async function getData(query) {
@@ -24,7 +24,7 @@ async function getData(query) {
 		let magnet = $($(el).find("td").get(3)).find("a").attr("href");
 		let seeders = $($(el).find("td").get(5)).text().trim();
 		let leechers = $($(el).find("td").get(6)).text().trim();
-		ctx[name] = { magnet, seeders, leechers };
+		ctx.push({ name, magnet, seeders, leechers });
 	})
 }
 
@@ -38,7 +38,7 @@ function deleteTemp(dir) {
 
 
 function playFile(choice) {
-	console.log("Playing", choice);
+	console.log("Playing", ctx[choice].name);
 	exec(`webtorrent "${ctx[choice].magnet}" --vlc -o "temp" -q`, (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
@@ -48,6 +48,7 @@ function playFile(choice) {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
+		// Could put deleteTemp() here
 		console.log("Exiting...");
 	});
 }
@@ -79,19 +80,22 @@ async function main() {
 		return;
 	}
 
+	let torrentInfoArray = ctx.map((torr) => {
+		return torr.name + " SE: " + torr.seeders + " LE: " + torr.leechers
+	});
 	answers = await inquirer
 		.prompt([
 			{
 				type: 'list',
 				name: 'choice',
 				message: 'Select a file to play >',
-				choices: Object.keys(ctx).map((torr) => {
-					return torr + " SE: " + ctx[torr].seeders + " LE: " + ctx[torr].leechers
-				}),
+				choices: torrentInfoArray,
+				loop: false,
+				pageSize: 10
 			},
 		])
 
-	let choice = answers.choice;
+	let choice = torrentInfoArray.indexOf(answers.choice);
 	playFile(choice);
 }
 
