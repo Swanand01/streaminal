@@ -1,6 +1,6 @@
-
 # Streaminal
 A CLI to stream movies, TV shows etc. from your terminal, for free.
+![Streaminal logo](https://github.com/Swanand01/streaminal/blob/master/streaminal.png)
 
 ## Installation
 
