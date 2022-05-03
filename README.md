@@ -14,7 +14,7 @@ npm install -g streaminal
     
 ## Requirements
 
-Streaminal requires 32 bit VLC media player. Download [here](https://www.videolan.org/vlc/download-windows.html).
+Streaminal requires 32 bit VLC media player. Download [here](https://get.videolan.org/vlc/3.0.17.4/win32/vlc-3.0.17.4-win32.exe).
 ## Usage
 
 Simply type "streaminal" in your terminal.
