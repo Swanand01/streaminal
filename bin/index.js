@@ -60,9 +60,7 @@ function showBanner() {
 	})));
 }
 
-async function main() {
-	showBanner();
-	deleteTemp(tempDir);
+async function getSearchQuery() {
 	let answers = await inquirer
 		.prompt([
 			{
@@ -72,12 +70,23 @@ async function main() {
 		])
 
 	let query = answers.query;
-	if (!query) return;
+	if (!query) process.exit(1);
+
+	return query;
+}
+
+async function main() {
+	showBanner();
+	deleteTemp(tempDir);
+
+	let query = await getSearchQuery();
 
 	await getData(query);
-	if (Object.keys(ctx).length === 0) {
+
+	while (Object.keys(ctx).length === 0) {
 		console.log("No results found");
-		return;
+		let query = await getSearchQuery();
+		await getData(query);
 	}
 
 	let torrentInfoArray = ctx.map((torr) => {
