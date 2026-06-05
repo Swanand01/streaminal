@@ -100,7 +100,9 @@ export interface Genre {
 export interface DiscoverParams {
   page?: number;
   with_genres?: string;
+  without_genres?: string;
   'vote_average.gte'?: number;
+  'vote_count.gte'?: number;
   'release_date.lte'?: string;
   sort_by?: string;
 }
@@ -233,8 +235,11 @@ export async function discoverMovies(params: DiscoverParams = {}) {
   const queryParams = new URLSearchParams();
   queryParams.append('page', (params.page || 1).toString());
   if (params.with_genres) queryParams.append('with_genres', params.with_genres);
+  if (params.without_genres) queryParams.append('without_genres', params.without_genres);
   if (params['vote_average.gte'])
     queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
+  if (params['vote_count.gte'])
+    queryParams.append('vote_count.gte', params['vote_count.gte'].toString());
   if (params['release_date.lte'])
     queryParams.append('release_date.lte', params['release_date.lte']);
   if (params.sort_by) queryParams.append('sort_by', params.sort_by);
@@ -255,8 +260,11 @@ export async function discoverTVShows(params: DiscoverParams = {}) {
   const queryParams = new URLSearchParams();
   queryParams.append('page', (params.page || 1).toString());
   if (params.with_genres) queryParams.append('with_genres', params.with_genres);
+  if (params.without_genres) queryParams.append('without_genres', params.without_genres);
   if (params['vote_average.gte'])
     queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
+  if (params['vote_count.gte'])
+    queryParams.append('vote_count.gte', params['vote_count.gte'].toString());
   if (params.sort_by) queryParams.append('sort_by', params.sort_by);
 
   const data = await fetchTMDB(`/discover/tv?${queryParams.toString()}`);

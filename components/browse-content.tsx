@@ -67,6 +67,11 @@ export function BrowseContent({
         params['vote_average.gte'] = minRating;
       }
 
+      if (sortBy === 'vote_average.desc') {
+        params['vote_count.gte'] = 200;
+        params.without_genres = '99,10755';
+      }
+
       return isMovie ? discoverMovies(params) : discoverTVShows(params);
     },
     initialData:

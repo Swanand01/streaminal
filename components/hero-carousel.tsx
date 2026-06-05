@@ -86,7 +86,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
 
   return (
     <section
-      className="group/hero relative h-[70vh] max-h-200 min-h-150 w-full md:h-[80vh]"
+      className="group/hero relative h-[60vh] max-h-200 min-h-150 w-full xl:h-[70vh]"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onTouchStart={handleTouchStart}
@@ -134,7 +134,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
               {year && <span>{year}</span>}
             </div>
 
-            <h1 className="text-foreground text-4xl leading-tight font-bold md:text-6xl lg:text-7xl">
+            <h1 className="text-foreground text-3xl leading-tight font-bold md:text-4xl lg:text-5xl xl:text-6xl">
               {title}
             </h1>
 
