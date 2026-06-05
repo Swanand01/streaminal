@@ -8,7 +8,7 @@ export function Footer() {
           <span>
             Built with ❤️ by{' '}
             <a
-              href="https://github.com/Swanand01"
+              href="https://swanand01.github.io/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground underline underline-offset-4"
