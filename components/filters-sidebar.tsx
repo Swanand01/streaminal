@@ -35,7 +35,7 @@ export function FiltersSidebar({
   showCloseButton = false,
 }: FiltersSidebarProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-4">
       {showCloseButton && (
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">Filters</h2>

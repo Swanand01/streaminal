@@ -136,7 +136,7 @@ export function BrowseContent({
         )}
 
         {/* Main Content */}
-        <main className="min-w-0 flex-1">
+        <main className="min-w-0 flex-1 pb-4">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div className="w-full sm:w-auto sm:flex-1">
               <h1 className="text-3xl font-bold text-balance">{title}</h1>

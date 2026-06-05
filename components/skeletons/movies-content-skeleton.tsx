@@ -24,7 +24,7 @@ export function MoviesContentSkeleton() {
             <Skeleton className="h-px w-full" />
 
             {/* Minimum Rating Section */}
-            <div className="space-y-3">
+            <div className="space-y-3 pb-4">
               <Skeleton className="h-5 w-32" />
               <div className="space-y-2">
                 {Array.from({ length: 6 }).map((_, i) => (
@@ -36,7 +36,7 @@ export function MoviesContentSkeleton() {
         </aside>
 
         {/* Main Content Skeleton */}
-        <main className="min-w-0 flex-1">
+        <main className="min-w-0 flex-1 pb-4">
           <div className="mb-6 flex justify-between gap-4">
             <div>
               <Skeleton className="mb-2 h-9 w-32" />

@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
-  "name": "next-app",
+  "name": "streaminal",
   "workers_dev": false,
   "compatibility_date": "2025-09-27",
   "compatibility_flags": ["nodejs_compat"],
@@ -12,7 +12,7 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "next-app",
+      "service": "streaminal",
     },
   ],
   "images": {
