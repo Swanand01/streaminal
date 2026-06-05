@@ -12,19 +12,19 @@ import {
 } from './home-sections';
 
 export const metadata: Metadata = {
-  title: 'Streaminal TV - Watch Movies & TV Shows Online Free in HD',
+  title: 'Streaminal - Watch Movies & TV Shows Online Free in HD',
   description:
-    'Stream thousands of movies and TV shows online free in HD. Watch trending content, popular films, and TV series without subscription on Streaminal TV.',
+    'Stream thousands of movies and TV shows online free in HD. Watch trending content, popular films, and TV series without subscription on Streaminal.',
   openGraph: {
-    title: 'Streaminal TV - Watch Movies & TV Shows Online Free in HD',
+    title: 'Streaminal - Watch Movies & TV Shows Online Free in HD',
     description:
       'Stream thousands of movies and TV shows online free in HD. Watch trending content without subscription.',
     type: 'website',
-    siteName: 'Streaminal TV',
+    siteName: 'Streaminal',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Streaminal TV - Watch Movies & TV Shows Online Free in HD',
+    title: 'Streaminal - Watch Movies & TV Shows Online Free in HD',
     description: 'Stream thousands of movies and TV shows online free in HD.',
   },
 };

@@ -14,7 +14,7 @@ import { generateSlug } from '@/lib/utils';
 export async function generateMovieMetadata(movieId: number): Promise<Metadata> {
   if (isNaN(movieId)) {
     return {
-      title: 'Movie Not Found | Streaminal TV',
+      title: 'Movie Not Found | Streaminal',
       description: 'The requested movie could not be found.',
     };
   }
@@ -27,12 +27,12 @@ export async function generateMovieMetadata(movieId: number): Promise<Metadata> 
     const runtime = movie.runtime ? `${movie.runtime} min` : '';
     const genres = movie.genres?.map((g) => g.name).join(', ') || '';
 
-    const pageTitle = `Watch ${title}${year ? ` (${year})` : ''} Online Free - HD | Streaminal TV`;
+    const pageTitle = `Watch ${title}${year ? ` (${year})` : ''} Online Free - HD | Streaminal`;
     const description = movie.overview
       ? movie.overview.length > 155
         ? `${movie.overview.substring(0, 152)}...`
         : movie.overview
-      : `Watch ${title}${year ? ` (${year})` : ''} online free in HD. ${genres}${runtime ? ` • ${runtime}` : ''}${rating ? ` • ⭐ ${rating}/10` : ''}. Stream now on Streaminal TV.`;
+      : `Watch ${title}${year ? ` (${year})` : ''} online free in HD. ${genres}${runtime ? ` • ${runtime}` : ''}${rating ? ` • ⭐ ${rating}/10` : ''}. Stream now on Streaminal.`;
 
     const slug = generateSlug(title, movieId);
 
@@ -49,7 +49,7 @@ export async function generateMovieMetadata(movieId: number): Promise<Metadata> 
         images: movie.backdrop_path
           ? [{ url: getImageUrl(movie.backdrop_path, 'w780'), width: 780, height: 439 }]
           : [],
-        siteName: 'Streaminal TV',
+        siteName: 'Streaminal',
       },
       twitter: {
         card: 'summary_large_image',
@@ -60,7 +60,7 @@ export async function generateMovieMetadata(movieId: number): Promise<Metadata> 
     };
   } catch {
     return {
-      title: 'Movie Not Found | Streaminal TV',
+      title: 'Movie Not Found | Streaminal',
       description: 'The requested movie could not be found.',
     };
   }
@@ -69,7 +69,7 @@ export async function generateMovieMetadata(movieId: number): Promise<Metadata> 
 export async function generateTVShowMetadata(tvId: number): Promise<Metadata> {
   if (isNaN(tvId)) {
     return {
-      title: 'TV Show Not Found | Streaminal TV',
+      title: 'TV Show Not Found | Streaminal',
       description: 'The requested TV show could not be found.',
     };
   }
@@ -84,12 +84,12 @@ export async function generateTVShowMetadata(tvId: number): Promise<Metadata> {
       : '';
     const genres = show.genres?.map((g) => g.name).join(', ') || '';
 
-    const pageTitle = `Watch ${title}${year ? ` (${year})` : ''} Online Free - HD | Streaminal TV`;
+    const pageTitle = `Watch ${title}${year ? ` (${year})` : ''} Online Free - HD | Streaminal`;
     const description = show.overview
       ? show.overview.length > 155
         ? `${show.overview.substring(0, 152)}...`
         : show.overview
-      : `Watch ${title}${year ? ` (${year})` : ''} online free in HD. ${genres}${seasons ? ` • ${seasons}` : ''}${rating ? ` • ⭐ ${rating}/10` : ''}. Stream all episodes on Streaminal TV.`;
+      : `Watch ${title}${year ? ` (${year})` : ''} online free in HD. ${genres}${seasons ? ` • ${seasons}` : ''}${rating ? ` • ⭐ ${rating}/10` : ''}. Stream all episodes on Streaminal.`;
 
     const slug = generateSlug(title, tvId);
 
@@ -106,7 +106,7 @@ export async function generateTVShowMetadata(tvId: number): Promise<Metadata> {
         images: show.backdrop_path
           ? [{ url: getImageUrl(show.backdrop_path, 'w780'), width: 780, height: 439 }]
           : [],
-        siteName: 'Streaminal TV',
+        siteName: 'Streaminal',
       },
       twitter: {
         card: 'summary_large_image',
@@ -117,7 +117,7 @@ export async function generateTVShowMetadata(tvId: number): Promise<Metadata> {
     };
   } catch {
     return {
-      title: 'TV Show Not Found | Streaminal TV',
+      title: 'TV Show Not Found | Streaminal',
       description: 'The requested TV show could not be found.',
     };
   }
@@ -126,7 +126,7 @@ export async function generateTVShowMetadata(tvId: number): Promise<Metadata> {
 export async function generatePersonMetadata(personId: number): Promise<Metadata> {
   if (isNaN(personId)) {
     return {
-      title: 'Person Not Found | Streaminal TV',
+      title: 'Person Not Found | Streaminal',
       description: 'The requested person could not be found.',
     };
   }
@@ -136,7 +136,7 @@ export async function generatePersonMetadata(personId: number): Promise<Metadata
     const knownFor = person.known_for_department || 'Acting';
     const biography = person.biography || '';
 
-    const pageTitle = `${person.name} - ${knownFor} | Streaminal TV`;
+    const pageTitle = `${person.name} - ${knownFor} | Streaminal`;
     const description = biography
       ? biography.length > 155
         ? `${biography.substring(0, 152)}...`
@@ -156,7 +156,7 @@ export async function generatePersonMetadata(personId: number): Promise<Metadata
         images: person.profile_path
           ? [{ url: getImageUrl(person.profile_path, 'original'), width: 500, height: 750 }]
           : [],
-        siteName: 'Streaminal TV',
+        siteName: 'Streaminal',
       },
       twitter: {
         card: 'summary_large_image',
@@ -167,7 +167,7 @@ export async function generatePersonMetadata(personId: number): Promise<Metadata
     };
   } catch {
     return {
-      title: 'Person Not Found | Streaminal TV',
+      title: 'Person Not Found | Streaminal',
       description: 'The requested person could not be found.',
     };
   }
@@ -176,14 +176,14 @@ export async function generatePersonMetadata(personId: number): Promise<Metadata
 export function generateSearchMetadata(query: string): Metadata {
   if (!query) {
     return {
-      title: 'Search Movies & TV Shows | Streaminal TV',
-      description: 'Search for your favorite movies, TV shows, and actors on Streaminal TV.',
+      title: 'Search Movies & TV Shows | Streaminal',
+      description: 'Search for your favorite movies, TV shows, and actors on Streaminal.',
     };
   }
 
   return {
-    title: `Search Results for "${query}" | Streaminal TV`,
-    description: `Find movies, TV shows, and people matching "${query}". Browse search results on Streaminal TV.`,
+    title: `Search Results for "${query}" | Streaminal`,
+    description: `Find movies, TV shows, and people matching "${query}". Browse search results on Streaminal.`,
     robots: {
       index: false,
       follow: true,
@@ -267,7 +267,7 @@ export function generateWebSiteJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Streaminal TV',
+    name: 'Streaminal',
     url: baseUrl,
     potentialAction: {
       '@type': 'SearchAction',

@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: TVShowPageProps): Promise<Met
   const tvId = extractIdFromSlug(slug);
   if (!tvId) {
     return {
-      title: 'TV Show Not Found | Streaminal TV',
+      title: 'TV Show Not Found | Streaminal',
       description: 'The requested TV show could not be found.',
     };
   }

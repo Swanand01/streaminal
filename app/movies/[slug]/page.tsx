@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: MoviePageProps): Promise<Meta
   const movieId = extractIdFromSlug(slug);
   if (!movieId) {
     return {
-      title: 'Movie Not Found | Streaminal TV',
+      title: 'Movie Not Found | Streaminal',
       description: 'The requested movie could not be found.',
     };
   }

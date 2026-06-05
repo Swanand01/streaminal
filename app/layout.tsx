@@ -23,11 +23,11 @@ export const metadata: Metadata = {
     metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
   }),
   title: {
-    default: 'Streaminal TV - Watch Movies & TV Shows Online Free',
+    default: 'Streaminal - Watch Movies & TV Shows Online Free',
     template: '%s',
   },
   description:
-    'Watch thousands of movies and TV shows online free in HD. Stream trending content, browse by genre, and discover your next favorite show on Streaminal TV - no subscription required.',
+    'Watch thousands of movies and TV shows online free in HD. Stream trending content, browse by genre, and discover your next favorite show on Streaminal - no subscription required.',
   keywords: [
     'watch movies online free',
     'free tv shows',
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
     'movies',
     'tv shows',
   ],
-  authors: [{ name: 'Streaminal TV' }],
-  creator: 'Streaminal TV',
-  publisher: 'Streaminal TV',
+  authors: [{ name: 'Streaminal' }],
+  creator: 'Streaminal',
+  publisher: 'Streaminal',
   alternates: {
     canonical: '/',
   },
@@ -48,14 +48,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://streaminal.tv',
-    siteName: 'Streaminal TV',
-    title: 'Streaminal TV - Watch Movies & TV Shows Online Free',
+    siteName: 'Streaminal',
+    title: 'Streaminal - Watch Movies & TV Shows Online Free',
     description:
       'Watch thousands of movies and TV shows online free in HD. Stream trending content without subscription.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Streaminal TV - Watch Movies & TV Shows Online Free',
+    title: 'Streaminal - Watch Movies & TV Shows Online Free',
     description: 'Watch thousands of movies and TV shows online free in HD.',
     creator: '@streaminal',
   },

@@ -18,7 +18,7 @@ export function Footer() {
           </span>
           <span>·</span>
           <a
-            href="https://github.com/Swanand01/streaminal-tv"
+            href="https://github.com/Swanand01/streaminal"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-foreground"

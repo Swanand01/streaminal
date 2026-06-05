@@ -16,7 +16,7 @@ export function Navigation() {
       <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-8 lg:px-12">
         <div className={`flex items-center gap-8 ${showSearch ? 'hidden md:flex' : ''}`}>
           <Link href="/" className="text-primary text-3xl font-bold tracking-tight">
-            STREAMINAL TV
+            STREAMINAL
           </Link>
           <div className="hidden items-center gap-6 md:flex">
             <Link

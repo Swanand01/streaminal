@@ -18,19 +18,19 @@ export async function generateMetadata({ params }: MatchPageProps): Promise<Meta
 
   if (!match) {
     return {
-      title: 'Match Not Found | Streaminal TV',
+      title: 'Match Not Found | Streaminal',
       description: 'The requested match could not be found.',
     };
   }
 
   return {
-    title: `Watch ${match.title} Live | Streaminal TV`,
-    description: `Stream ${match.title} live online free on Streaminal TV.`,
+    title: `Watch ${match.title} Live | Streaminal`,
+    description: `Stream ${match.title} live online free on Streaminal.`,
     openGraph: {
-      title: `Watch ${match.title} Live | Streaminal TV`,
+      title: `Watch ${match.title} Live | Streaminal`,
       description: `Stream ${match.title} live online free.`,
       type: 'website',
-      siteName: 'Streaminal TV',
+      siteName: 'Streaminal',
     },
   };
 }

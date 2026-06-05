@@ -5,22 +5,22 @@ import { SportsContentSkeleton } from '@/components/skeletons/sports-content-ske
 import { Sports } from './sports';
 
 export const metadata: Metadata = {
-  title: 'Watch Live Sports Online Free | Streaminal TV',
+  title: 'Watch Live Sports Online Free | Streaminal',
   description:
-    'Watch live sports online free. Stream football, basketball, tennis, MMA, boxing and more without subscription on Streaminal TV.',
+    'Watch live sports online free. Stream football, basketball, tennis, MMA, boxing and more without subscription on Streaminal.',
   alternates: {
     canonical: '/sports',
   },
   openGraph: {
-    title: 'Watch Live Sports Online Free | Streaminal TV',
+    title: 'Watch Live Sports Online Free | Streaminal',
     description:
       'Watch live sports online free. Stream football, basketball, tennis, MMA, boxing and more.',
     type: 'website',
-    siteName: 'Streaminal TV',
+    siteName: 'Streaminal',
   },
   twitter: {
     card: 'summary',
-    title: 'Watch Live Sports Online Free | Streaminal TV',
+    title: 'Watch Live Sports Online Free | Streaminal',
     description:
       'Watch live sports online free. Stream football, basketball, tennis, MMA, boxing and more.',
   },

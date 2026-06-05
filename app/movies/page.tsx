@@ -5,22 +5,22 @@ import { MoviesContentSkeleton } from '@/components/skeletons/movies-content-ske
 import { Movies } from './movies';
 
 export const metadata: Metadata = {
-  title: 'Watch Movies Online Free - Browse HD Movies | Streaminal TV',
+  title: 'Watch Movies Online Free - Browse HD Movies | Streaminal',
   description:
-    'Watch thousands of movies online free in HD. Browse by genre, rating, and year. Stream popular and trending movies without subscription on Streaminal TV.',
+    'Watch thousands of movies online free in HD. Browse by genre, rating, and year. Stream popular and trending movies without subscription on Streaminal.',
   alternates: {
     canonical: '/movies',
   },
   openGraph: {
-    title: 'Watch Movies Online Free - Browse HD Movies | Streaminal TV',
+    title: 'Watch Movies Online Free - Browse HD Movies | Streaminal',
     description:
       'Watch thousands of movies online free in HD. Browse by genre, rating, and year without subscription.',
     type: 'website',
-    siteName: 'Streaminal TV',
+    siteName: 'Streaminal',
   },
   twitter: {
     card: 'summary',
-    title: 'Watch Movies Online Free - Browse HD Movies | Streaminal TV',
+    title: 'Watch Movies Online Free - Browse HD Movies | Streaminal',
     description: 'Watch thousands of movies online free in HD. Browse by genre, rating, and year.',
   },
 };

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PersonPageProps): Promise<Met
   const personId = extractIdFromSlug(slug);
   if (!personId) {
     return {
-      title: 'Person Not Found | Streaminal TV',
+      title: 'Person Not Found | Streaminal',
       description: 'The requested person could not be found.',
     };
   }

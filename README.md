@@ -1,4 +1,4 @@
-# Streaminal TV
+# Streaminal
 
 A modern streaming platform built with Next.js that aggregates content from The Movie Database (TMDB) and multiple video sources.
 
