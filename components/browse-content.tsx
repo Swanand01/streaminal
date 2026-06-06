@@ -25,6 +25,8 @@ interface BrowseContentProps {
     total_pages: number;
     total_results: number;
   };
+  lockedParams?: Pick<DiscoverParams, 'with_original_language' | 'with_keywords' | 'with_genres' | 'without_keywords'>;
+  itemLabel?: string;
 }
 
 export function BrowseContent({
@@ -32,6 +34,8 @@ export function BrowseContent({
   title,
   initialGenres,
   initialData,
+  lockedParams,
+  itemLabel: itemLabelProp,
 }: BrowseContentProps) {
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [minRating, setMinRating] = useState(0);
@@ -42,26 +46,31 @@ export function BrowseContent({
   const isMovie = mediaType === 'movie';
   const queryKey = isMovie ? 'movies' : 'tvShows';
   const releaseDateField = isMovie ? 'primary_release_date' : 'first_air_date';
-  const itemLabel = isMovie ? 'movies' : 'TV shows';
+  const itemLabel = itemLabelProp ?? (isMovie ? 'movies' : 'TV shows');
+
+  const lockedGenreIds = lockedParams?.with_genres?.split(',').map(Number) ?? [];
+  const displayGenres = initialGenres.filter((g) => !lockedGenreIds.includes(g.id));
 
   // Fetch media with TanStack Query
   const { data: mediaData, isLoading } = useQuery({
-    queryKey: [queryKey, selectedGenres, minRating, sortBy, currentPage],
+    queryKey: [queryKey, selectedGenres, minRating, sortBy, currentPage, lockedParams],
     queryFn: async () => {
       const params: DiscoverParams = {
         page: currentPage,
         sort_by: sortBy,
       };
 
-      // Only add release date filter for movies
       if (isMovie) {
         const today = new Date().toISOString().split('T')[0];
         params['release_date.lte'] = today;
       }
 
-      if (selectedGenres.length > 0) {
-        params.with_genres = selectedGenres.join(',');
-      }
+      const allGenreIds = [...lockedGenreIds, ...selectedGenres];
+      if (allGenreIds.length > 0) params.with_genres = allGenreIds.join(',');
+
+      if (lockedParams?.with_original_language) params.with_original_language = lockedParams.with_original_language;
+      if (lockedParams?.with_keywords) params.with_keywords = lockedParams.with_keywords;
+      if (lockedParams?.without_keywords) params.without_keywords = lockedParams.without_keywords;
 
       if (minRating > 0) {
         params['vote_average.gte'] = minRating;
@@ -116,7 +125,7 @@ export function BrowseContent({
         <aside className="hidden w-64 shrink-0 lg:block">
           <div className="sticky top-24">
             <FiltersSidebar
-              genres={initialGenres}
+              genres={displayGenres}
               selectedGenres={selectedGenres}
               minRating={minRating}
               onGenreToggle={handleGenreToggle}
@@ -129,7 +138,7 @@ export function BrowseContent({
         {showMobileFilters && (
           <div className="bg-background fixed inset-0 z-50 overflow-y-auto p-6 lg:hidden">
             <FiltersSidebar
-              genres={initialGenres}
+              genres={displayGenres}
               selectedGenres={selectedGenres}
               minRating={minRating}
               onGenreToggle={handleGenreToggle}

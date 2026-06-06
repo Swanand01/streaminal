@@ -103,6 +103,9 @@ export interface DiscoverParams {
   page?: number;
   with_genres?: string;
   without_genres?: string;
+  with_original_language?: string;
+  with_keywords?: string;
+  without_keywords?: string;
   'vote_average.gte'?: number;
   'vote_count.gte'?: number;
   'release_date.lte'?: string;
@@ -235,8 +238,12 @@ export async function getTVGenres() {
 export async function discoverMovies(params: DiscoverParams = {}) {
   const queryParams = new URLSearchParams();
   queryParams.append('page', (params.page || 1).toString());
+  queryParams.append('include_adult', 'false');
   if (params.with_genres) queryParams.append('with_genres', params.with_genres);
   if (params.without_genres) queryParams.append('without_genres', params.without_genres);
+  if (params.with_original_language) queryParams.append('with_original_language', params.with_original_language);
+  if (params.with_keywords) queryParams.append('with_keywords', params.with_keywords);
+  if (params.without_keywords) queryParams.append('without_keywords', params.without_keywords);
   if (params['vote_average.gte'])
     queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
   if (params['vote_count.gte'])
@@ -260,8 +267,12 @@ export async function discoverMovies(params: DiscoverParams = {}) {
 export async function discoverTVShows(params: DiscoverParams = {}) {
   const queryParams = new URLSearchParams();
   queryParams.append('page', (params.page || 1).toString());
+  queryParams.append('include_adult', 'false');
   if (params.with_genres) queryParams.append('with_genres', params.with_genres);
   if (params.without_genres) queryParams.append('without_genres', params.without_genres);
+  if (params.with_original_language) queryParams.append('with_original_language', params.with_original_language);
+  if (params.with_keywords) queryParams.append('with_keywords', params.with_keywords);
+  if (params.without_keywords) queryParams.append('without_keywords', params.without_keywords);
   if (params['vote_average.gte'])
     queryParams.append('vote_average.gte', params['vote_average.gte'].toString());
   if (params['vote_count.gte'])
