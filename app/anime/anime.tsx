@@ -1,11 +1,11 @@
-import { discoverTVShows, getTVGenres } from '@/lib/tmdb';
+import { discoverTVShows, getTVGenres, ADULT_ANIME_KEYWORD_IDS } from '@/lib/tmdb';
 import { BrowseContent } from '@/components/browse-content';
 
 const ANIME_PARAMS = {
   with_genres: '16',
   with_original_language: 'ja',
   with_keywords: '210024',
-  without_keywords: '198385',
+  without_keywords: ADULT_ANIME_KEYWORD_IDS.join(','),
 };
 
 export async function Anime() {

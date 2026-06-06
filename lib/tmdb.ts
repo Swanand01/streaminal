@@ -16,6 +16,7 @@ export interface Media {
   first_air_date?: string;
   media_type?: 'movie' | 'tv' | 'person';
   genre_ids: number[];
+  original_language?: string;
   href?: string;
   subtitle?: string;
 }
@@ -152,9 +153,12 @@ export async function getPopularTVShows() {
   return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
 
+export const ADULT_ANIME_KEYWORD_IDS = [198385, 195669, 256466]; // hentai, ecchi, erotic
+const ADULT_ANIME_KEYWORDS_PARAM = ADULT_ANIME_KEYWORD_IDS.join(',');
+
 export async function getPopularAnime() {
   const data = await fetchTMDB(
-    '/discover/tv?with_genres=16&with_original_language=ja&with_keywords=210024&without_keywords=198385&sort_by=popularity.desc&include_adult=false',
+    `/discover/tv?with_genres=16&with_original_language=ja&with_keywords=210024&without_keywords=${ADULT_ANIME_KEYWORDS_PARAM}&sort_by=popularity.desc&include_adult=false`,
     { revalidate: 43200 }
   );
   return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
@@ -305,7 +309,24 @@ export async function getSimilarMovies(id: number) {
 
 export async function getSimilarTVShows(id: number) {
   const data = await fetchTMDB(`/tv/${id}/recommendations`);
-  return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
+  const results = data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
+
+  const suspects = results.filter(
+    (r) => r.genre_ids?.includes(16) && r.original_language === 'ja'
+  );
+  if (suspects.length === 0) return results;
+
+  const keywordSets = await Promise.all(
+    suspects.map((r) =>
+      fetchTMDB(`/tv/${r.id}/keywords`)
+        .then((d) => ({ id: r.id, keywords: (d.results as { id: number }[]).map((k) => k.id) }))
+        .catch(() => ({ id: r.id, keywords: [] }))
+    )
+  );
+  const blocked = new Set(
+    keywordSets.filter((k) => k.keywords.some((kw) => ADULT_ANIME_KEYWORD_IDS.includes(kw))).map((k) => k.id)
+  );
+  return results.filter((r) => !blocked.has(r.id));
 }
 
 export async function getMovieVideos(id: number) {
