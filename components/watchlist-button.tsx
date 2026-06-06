@@ -13,7 +13,14 @@ interface WatchlistButtonProps {
   voteAverage: number;
 }
 
-export function WatchlistButton({ id, mediaType, title, posterPath, slug, voteAverage }: WatchlistButtonProps) {
+export function WatchlistButton({
+  id,
+  mediaType,
+  title,
+  posterPath,
+  slug,
+  voteAverage,
+}: WatchlistButtonProps) {
   const { add, remove, isInWatchlist } = useWatchlist();
   const saved = isInWatchlist(id, mediaType);
 
@@ -21,12 +28,24 @@ export function WatchlistButton({ id, mediaType, title, posterPath, slug, voteAv
     if (saved) {
       remove(id, mediaType);
     } else {
-      add({ id, media_type: mediaType, title, poster_path: posterPath, slug, vote_average: voteAverage });
+      add({
+        id,
+        media_type: mediaType,
+        title,
+        poster_path: posterPath,
+        slug,
+        vote_average: voteAverage,
+      });
     }
   };
 
   return (
-    <Button variant={saved ? 'default' : 'outline'} size="lg" onClick={handleToggle} className="shrink-0 gap-2">
+    <Button
+      variant={saved ? 'default' : 'outline'}
+      size="lg"
+      onClick={handleToggle}
+      className="shrink-0 gap-2"
+    >
       {saved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
       {saved ? 'Saved' : 'Watchlist'}
     </Button>

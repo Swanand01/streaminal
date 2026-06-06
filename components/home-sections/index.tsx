@@ -2,7 +2,7 @@ import { HeroCarousel } from '@/components/hero-carousel';
 import { MediaCarousel } from '@/components/media/media-carousel';
 import { getTrending, getPopularMovies, getPopularTVShows } from '@/lib/tmdb';
 
-export { ContinueWatchingSection, WatchlistSection } from './home-user-sections';
+export { ContinueWatchingSection, WatchlistSection } from './user-sections';
 
 export async function HeroSection() {
   const trending = (await getTrending('all', 'day').catch(() => [])).filter(
