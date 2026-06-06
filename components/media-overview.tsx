@@ -5,16 +5,20 @@ import { Badge } from '@/components/ui/badge';
 interface MediaOverviewProps {
   media: MediaDetails;
   overviewText?: string;
+  actions?: React.ReactNode;
 }
 
-export function MediaOverview({ media, overviewText }: MediaOverviewProps) {
+export function MediaOverview({ media, overviewText, actions }: MediaOverviewProps) {
   const title = getTitle(media);
   const year = getReleaseYear(media);
   const overview = overviewText || media.overview;
 
   return (
     <div className="mb-8">
-      <h1 className="mb-2 text-3xl font-bold text-balance md:text-4xl">{title}</h1>
+      <div className="mb-2 flex items-start justify-between gap-4">
+        <h1 className="text-3xl font-bold text-balance md:text-4xl">{title}</h1>
+        {actions}
+      </div>
       <div className="text-muted-foreground text-md flex flex-wrap items-center gap-4">
         {year && (
           <div className="flex items-center gap-1">

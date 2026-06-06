@@ -16,6 +16,8 @@ export interface Media {
   first_air_date?: string;
   media_type?: 'movie' | 'tv' | 'person';
   genre_ids: number[];
+  href?: string;
+  subtitle?: string;
 }
 
 export interface MediaDetails extends Media {
@@ -130,13 +132,12 @@ async function fetchTMDB(endpoint: string, options?: { revalidate?: number; noSt
   return response.json();
 }
 
-export async function getTrending(
-  mediaType: 'movie' | 'tv' | 'all' = 'all',
-  timeWindow: 'day' | 'week' = 'week'
-) {
-  const data = await fetchTMDB(`/trending/${mediaType}/${timeWindow}`, { revalidate: 43200 });
-  return data.results as Media[];
-}
+export const getTrending = cache(
+  async (mediaType: 'movie' | 'tv' | 'all' = 'all', timeWindow: 'day' | 'week' = 'week') => {
+    const data = await fetchTMDB(`/trending/${mediaType}/${timeWindow}`, { revalidate: 43200 });
+    return data.results as Media[];
+  }
+);
 
 export async function getPopularMovies() {
   const data = await fetchTMDB('/movie/popular', { revalidate: 43200 });

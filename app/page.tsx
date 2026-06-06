@@ -6,10 +6,13 @@ import { MediaCarouselSkeleton } from '@/components/skeletons/media-carousel-ske
 import { JsonLd } from '@/components/jsonld';
 import { generateWebSiteJsonLd } from '@/lib/seo';
 import {
-  HeroAndTrendingSection,
+  HeroSection,
+  ContinueWatchingSection,
+  WatchlistSection,
+  TrendingSection,
   PopularMoviesSection,
   PopularTVShowsSection,
-} from './home-sections';
+} from '@/components/home-sections';
 
 export const metadata: Metadata = {
   title: 'Streaminal - Watch Movies & TV Shows Online Free in HD',
@@ -38,20 +41,24 @@ export default function HomePage() {
       <Navigation />
 
       <main>
-        <Suspense
-          fallback={
-            <>
-              <HeroBannerSkeleton />
-              <div className="relative z-10 -mt-20">
-                <MediaCarouselSkeleton />
-              </div>
-            </>
-          }
-        >
-          <HeroAndTrendingSection />
+        <Suspense fallback={<HeroBannerSkeleton />}>
+          <HeroSection />
         </Suspense>
 
-        <div className="relative z-10 space-y-12">
+        <div className="relative z-10 space-y-8 py-4">
+          <Suspense fallback={<MediaCarouselSkeleton />}>
+            <ContinueWatchingSection />
+          </Suspense>
+          <Suspense fallback={<MediaCarouselSkeleton />}>
+            <WatchlistSection />
+          </Suspense>
+        </div>
+
+        <div className="relative z-10 space-y-12 pb-10">
+          <Suspense fallback={<MediaCarouselSkeleton />}>
+            <TrendingSection />
+          </Suspense>
+
           <Suspense fallback={<MediaCarouselSkeleton />}>
             <PopularMoviesSection />
           </Suspense>

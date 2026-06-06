@@ -9,9 +9,15 @@ interface MediaCarouselProps {
   title: string;
   items: Media[];
   showMediaType?: boolean;
+  onRemove?: (id: number, mediaType: 'movie' | 'tv') => void;
 }
 
-export function MediaCarousel({ title, items, showMediaType = true }: MediaCarouselProps) {
+export function MediaCarousel({
+  title,
+  items,
+  showMediaType = true,
+  onRemove,
+}: MediaCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -74,7 +80,16 @@ export function MediaCarousel({ title, items, showMediaType = true }: MediaCarou
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {items.map((item, index) => (
-              <MediaCard key={`${item.id}-${index}`} media={item} showMediaType={showMediaType} />
+              <MediaCard
+                key={`${item.id}-${index}`}
+                media={item}
+                showMediaType={showMediaType}
+                onRemove={
+                  onRemove && (item.media_type === 'movie' || item.media_type === 'tv')
+                    ? () => onRemove(item.id, item.media_type as 'movie' | 'tv')
+                    : undefined
+                }
+              />
             ))}
           </div>
 

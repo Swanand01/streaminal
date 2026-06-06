@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MediaPlayer } from '@/components/media-player';
 import { MediaOverview } from '@/components/media-overview';
+import { WatchlistButton } from '@/components/watchlist-button';
+import { WatchTracker } from '@/components/watch-tracker';
 import { TVShowTabs } from './tv-show-tabs';
 import { SimilarMediaSection } from '@/components/similar-media-section';
 import { getTitle } from '@/lib/tmdb';
@@ -48,9 +50,10 @@ export function TVShowContent({
     window.history.replaceState(null, '', url);
   };
 
-  const episodeOverview = initialSeasonData?.episodes.find(
+  const currentEpisode = initialSeasonData?.episodes.find(
     (ep) => ep.episode_number === selectedEpisode
-  )?.overview;
+  );
+  const episodeOverview = currentEpisode?.overview;
 
   return (
     <>
@@ -58,6 +61,18 @@ export function TVShowContent({
       <div className="relative w-full pt-20">
         <div className="container mx-auto px-4 md:px-8 lg:px-12">
           <MediaPlayer type="tv" mediaId={tvId} season={initialSeason} episode={selectedEpisode} />
+          <WatchTracker
+            key={`${initialSeason}-${selectedEpisode}`}
+            id={tvId}
+            mediaType="tv"
+            title={getTitle(initialShow)}
+            posterPath={initialShow.poster_path}
+            slug={slug}
+            voteAverage={initialShow.vote_average}
+            seasonNumber={initialSeason}
+            episodeNumber={selectedEpisode}
+            episodeName={currentEpisode?.name}
+          />
         </div>
       </div>
 
@@ -66,7 +81,20 @@ export function TVShowContent({
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Main Content */}
           <div className="min-w-0 flex-1">
-            <MediaOverview media={initialShow} overviewText={episodeOverview} />
+            <MediaOverview
+              media={initialShow}
+              overviewText={episodeOverview}
+              actions={
+                <WatchlistButton
+                  id={tvId}
+                  mediaType="tv"
+                  title={getTitle(initialShow)}
+                  posterPath={initialShow.poster_path}
+                  slug={slug}
+                  voteAverage={initialShow.vote_average}
+                />
+              }
+            />
             <TVShowTabs
               show={initialShow}
               selectedSeason={initialSeason}

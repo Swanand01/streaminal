@@ -1,6 +1,15 @@
-import { getMovieDetails, getSimilarMovies, getMovieVideos, getMovieReviews } from '@/lib/tmdb';
+import {
+  getMovieDetails,
+  getSimilarMovies,
+  getMovieVideos,
+  getMovieReviews,
+  getTitle,
+} from '@/lib/tmdb';
+import { generateSlug } from '@/lib/utils';
 import { MediaPlayer } from '@/components/media-player';
 import { MediaOverview } from '@/components/media-overview';
+import { WatchlistButton } from '@/components/watchlist-button';
+import { WatchTracker } from '@/components/watch-tracker';
 import { MovieTabs } from './movie-tabs';
 import { SimilarMediaSection } from '@/components/similar-media-section';
 
@@ -25,12 +34,22 @@ export async function MovieContent({ movieId }: MovieContentProps) {
     );
   }
 
+  const slug = generateSlug(getTitle(movie), movieId);
+
   return (
     <>
       {/* Video Player Section */}
       <div className="relative w-full pt-20">
         <div className="container mx-auto px-4 md:px-8 lg:px-12">
           <MediaPlayer type="movie" mediaId={movieId} />
+          <WatchTracker
+            id={movieId}
+            mediaType="movie"
+            title={getTitle(movie)}
+            posterPath={movie.poster_path}
+            slug={slug}
+            voteAverage={movie.vote_average}
+          />
         </div>
       </div>
 
@@ -39,7 +58,19 @@ export async function MovieContent({ movieId }: MovieContentProps) {
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Main Content */}
           <div className="min-w-0 flex-1">
-            <MediaOverview media={movie} />
+            <MediaOverview
+              media={movie}
+              actions={
+                <WatchlistButton
+                  id={movieId}
+                  mediaType="movie"
+                  title={getTitle(movie)}
+                  posterPath={movie.poster_path}
+                  slug={slug}
+                  voteAverage={movie.vote_average}
+                />
+              }
+            />
             <MovieTabs movie={movie} videos={videos} reviews={reviews} />
           </div>
 
