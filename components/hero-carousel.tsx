@@ -86,7 +86,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
 
   return (
     <section
-      className="group/hero relative h-[60vh] max-h-200 min-h-150 w-full xl:h-[70vh]"
+      className="group/hero relative h-[60vh] max-h-200 w-full md:min-h-130 xl:h-[70vh]"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onTouchStart={handleTouchStart}
