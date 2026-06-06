@@ -12,6 +12,7 @@ import {
   TrendingSection,
   PopularMoviesSection,
   PopularTVShowsSection,
+  PopularAnimeSection,
 } from '@/components/home-sections';
 
 export const metadata: Metadata = {
@@ -65,6 +66,10 @@ export default function HomePage() {
 
           <Suspense fallback={<MediaCarouselSkeleton />}>
             <PopularTVShowsSection />
+          </Suspense>
+
+          <Suspense fallback={<MediaCarouselSkeleton />}>
+            <PopularAnimeSection />
           </Suspense>
         </div>
       </main>

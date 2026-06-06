@@ -152,6 +152,14 @@ export async function getPopularTVShows() {
   return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
 }
 
+export async function getPopularAnime() {
+  const data = await fetchTMDB(
+    '/discover/tv?with_genres=16&with_original_language=ja&with_keywords=210024&without_keywords=198385&sort_by=popularity.desc&include_adult=false',
+    { revalidate: 43200 }
+  );
+  return data.results.map((item: Media) => ({ ...item, media_type: 'tv' as const })) as Media[];
+}
+
 export const getMovieDetails = cache(async (id: number) => {
   const data = await fetchTMDB(`/movie/${id}?append_to_response=credits`);
   return data as MediaDetails;
@@ -241,7 +249,8 @@ export async function discoverMovies(params: DiscoverParams = {}) {
   queryParams.append('include_adult', 'false');
   if (params.with_genres) queryParams.append('with_genres', params.with_genres);
   if (params.without_genres) queryParams.append('without_genres', params.without_genres);
-  if (params.with_original_language) queryParams.append('with_original_language', params.with_original_language);
+  if (params.with_original_language)
+    queryParams.append('with_original_language', params.with_original_language);
   if (params.with_keywords) queryParams.append('with_keywords', params.with_keywords);
   if (params.without_keywords) queryParams.append('without_keywords', params.without_keywords);
   if (params['vote_average.gte'])
@@ -270,7 +279,8 @@ export async function discoverTVShows(params: DiscoverParams = {}) {
   queryParams.append('include_adult', 'false');
   if (params.with_genres) queryParams.append('with_genres', params.with_genres);
   if (params.without_genres) queryParams.append('without_genres', params.without_genres);
-  if (params.with_original_language) queryParams.append('with_original_language', params.with_original_language);
+  if (params.with_original_language)
+    queryParams.append('with_original_language', params.with_original_language);
   if (params.with_keywords) queryParams.append('with_keywords', params.with_keywords);
   if (params.without_keywords) queryParams.append('without_keywords', params.without_keywords);
   if (params['vote_average.gte'])

@@ -1,6 +1,6 @@
 import { HeroCarousel } from '@/components/hero-carousel';
 import { MediaCarousel } from '@/components/media/media-carousel';
-import { getTrending, getPopularMovies, getPopularTVShows } from '@/lib/tmdb';
+import { getTrending, getPopularMovies, getPopularTVShows, getPopularAnime } from '@/lib/tmdb';
 
 export { ContinueWatchingSection, WatchlistSection } from './user-sections';
 
@@ -38,4 +38,12 @@ export async function PopularTVShowsSection() {
   if (!popularTVShows || popularTVShows.length === 0) return null;
 
   return <MediaCarousel title="Popular TV Shows" items={popularTVShows} showMediaType={false} />;
+}
+
+export async function PopularAnimeSection() {
+  const popularAnime = await getPopularAnime().catch(() => []);
+
+  if (!popularAnime || popularAnime.length === 0) return null;
+
+  return <MediaCarousel title="Popular Anime" items={popularAnime} showMediaType={false} />;
 }

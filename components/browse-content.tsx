@@ -25,7 +25,10 @@ interface BrowseContentProps {
     total_pages: number;
     total_results: number;
   };
-  lockedParams?: Pick<DiscoverParams, 'with_original_language' | 'with_keywords' | 'with_genres' | 'without_keywords'>;
+  lockedParams?: Pick<
+    DiscoverParams,
+    'with_original_language' | 'with_keywords' | 'with_genres' | 'without_keywords'
+  >;
   itemLabel?: string;
 }
 
@@ -68,7 +71,8 @@ export function BrowseContent({
       const allGenreIds = [...lockedGenreIds, ...selectedGenres];
       if (allGenreIds.length > 0) params.with_genres = allGenreIds.join(',');
 
-      if (lockedParams?.with_original_language) params.with_original_language = lockedParams.with_original_language;
+      if (lockedParams?.with_original_language)
+        params.with_original_language = lockedParams.with_original_language;
       if (lockedParams?.with_keywords) params.with_keywords = lockedParams.with_keywords;
       if (lockedParams?.without_keywords) params.without_keywords = lockedParams.without_keywords;
 
