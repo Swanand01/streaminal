@@ -15,6 +15,10 @@
     {
       "name": "Server 4",
       "url": "https://vidlink.pro/movie/{id}"
+    },
+    {
+      "name": "Server 5",
+      "url": "https://vidsrc.sh/embed/movie/{id}"
     }
   ],
   "tv": [
@@ -33,6 +37,10 @@
     {
       "name": "Server 4",
       "url": "https://vidlink.pro/tv/{id}/{season}/{episode}"
+    },
+    {
+      "name": "Server 5",
+      "url": "https://vidsrc.sh/embed/tv/{id}/{season}/{episode}"
     }
   ]
 }

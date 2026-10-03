@@ -7,6 +7,7 @@
     "dev": "next dev",
     "start": "next start",
     "lint": "eslint",
+    "update-sources": "node scripts/update-vidsrc-domain.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
