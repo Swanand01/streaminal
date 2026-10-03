@@ -26,7 +26,7 @@
     },
     {
       "name": "Server 7 (Beta)",
-      "url":"https://bingr.one/watch/movie/{id}"
+      "url":"https://vidbolt.xyz/movie/{id}" //iframe only
     }
   ],
   "tv": [
