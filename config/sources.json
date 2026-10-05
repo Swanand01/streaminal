@@ -2,15 +2,15 @@
   "movie": [
     {
       "name": "Server 1",
-      "url": "https://player.videasy.net/movie/{id}"
+      "url": "https://vidsrc.sh/embed/movie/{id}"
     },
     {
       "name": "Server 2",
-      "url": "https://www.2embed.cc/embed/{id}"
+      "url": "https://www.2embed.skin/embed/{id}"
     },
     {
       "name": "Server 3",
-      "url": "https://111movies.com/movie/{id}"
+      "url": "https://111movies.net/movie/{id}"
     },
     {
       "name": "Server 4",
@@ -32,15 +32,15 @@
   "tv": [
     {
       "name": "Server 1",
-      "url": "https://player.videasy.net/tv/{id}/{season}/{episode}"
+      "url": "https://vidsrc.sh/embed/tv/{id}/{season}/{episode}"
     },
     {
       "name": "Server 2",
-      "url": "https://www.2embed.cc/embedtv/{id}&s={season}&e={episode}"
+      "url": "https://www.2embed.skin/embedtv/{id}&s={season}&e={episode}"
     },
     {
       "name": "Server 3",
-      "url": "https://111movies.com/tv/{id}/{season}/{episode}"
+      "url": "https://111movies.net/tv/{id}/{season}/{episode}"
     },
     {
       "name": "Server 4",
