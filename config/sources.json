@@ -15,6 +15,18 @@
     {
       "name": "Server 4",
       "url": "https://vidlink.pro/movie/{id}"
+    },
+    {
+      "name" : "Server 5 (Beta)",
+      "url": "https://rozgarlelo.modiplay.xyz/embed/tmdb/movie?id={id}"
+    },
+    {
+      "name": "Server 6 (Beta)",
+      "url": "https://bingr.one/watch/movie/{id}"
+    },
+    {
+      "name": "Server 7 (Beta)",
+      "url":"https://vidbolt.xyz/movie/{id}"
     }
   ],
   "tv": [
