@@ -69,18 +69,44 @@ interface PpvResponse {
 }
 
 async function fetchPpvStreams(): Promise<PpvResponse> {
-  const response = await fetch(`${SPORTS_BASE_URL}/streams`, {
-    cache: 'no-store',
-    headers: {
-      Accept: 'application/json, text/plain, */*',
-      Origin: 'https://ppv.st',
-      Referer: 'https://ppv.st/',
-      'User-Agent':
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/140.0 Safari/537.36',
-    },
-  });
+  const url = `${SPORTS_BASE_URL}/streams`;
+  const startedAt = Date.now();
+  let response: Response;
+
+  try {
+    response = await fetch(url, {
+      cache: 'no-store',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        Origin: 'https://ppv.st',
+        Referer: 'https://ppv.st/',
+        'User-Agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/140.0 Safari/537.36',
+      },
+    });
+  } catch (error) {
+    console.error(
+      'Sports API fetch failed',
+      JSON.stringify({
+        url,
+        durationMs: Date.now() - startedAt,
+        error: describeError(error),
+      })
+    );
+    throw error;
+  }
 
   if (!response.ok) {
+    console.error(
+      'Sports API returned an error',
+      JSON.stringify({
+        url,
+        durationMs: Date.now() - startedAt,
+        status: response.status,
+        statusText: response.statusText,
+        contentType: response.headers.get('content-type'),
+      })
+    );
     throw new Error(`Sports API error: ${response.status} ${response.statusText}`);
   }
 
@@ -90,6 +116,22 @@ async function fetchPpvStreams(): Promise<PpvResponse> {
   }
 
   return data as PpvResponse;
+}
+
+function describeError(error: unknown) {
+  if (!(error instanceof Error)) return { value: String(error) };
+
+  const cause = error.cause;
+  return {
+    name: error.name,
+    message: error.message,
+    cause:
+      cause instanceof Error
+        ? { name: cause.name, message: cause.message }
+        : cause == null
+          ? undefined
+          : String(cause),
+  };
 }
 
 function isLive(stream: PpvStream, now: number): boolean {
