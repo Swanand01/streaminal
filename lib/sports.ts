@@ -110,8 +110,40 @@ async function fetchPpvStreams(): Promise<PpvResponse> {
     throw new Error(`Sports API error: ${response.status} ${response.statusText}`);
   }
 
-  const data = (await response.json()) as Partial<PpvResponse>;
+  const contentType = response.headers.get('content-type');
+  let data: Partial<PpvResponse>;
+
+  try {
+    data = (await response.json()) as Partial<PpvResponse>;
+  } catch (error) {
+    console.error(
+      'Sports API JSON parsing failed',
+      JSON.stringify({
+        url,
+        durationMs: Date.now() - startedAt,
+        status: response.status,
+        contentType,
+        error: describeError(error),
+      })
+    );
+    throw error;
+  }
+
   if (!data.success || !Array.isArray(data.streams) || typeof data.timestamp !== 'number') {
+    console.error(
+      'Sports API returned an invalid response',
+      JSON.stringify({
+        url,
+        durationMs: Date.now() - startedAt,
+        status: response.status,
+        contentType,
+        success: data.success,
+        streamsType: Array.isArray(data.streams) ? 'array' : typeof data.streams,
+        timestampType: typeof data.timestamp,
+        error: data.error,
+        keys: Object.keys(data).slice(0, 20),
+      })
+    );
     throw new Error(data.error || 'Sports API returned an invalid response');
   }
 
