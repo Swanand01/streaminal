@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
         hostname: sportsHostname,
         pathname: '/api/images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'static.ppvservices.st',
+        pathname: '/assets/**',
+      },
     ],
   },
 };

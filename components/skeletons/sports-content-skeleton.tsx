@@ -38,21 +38,14 @@ export function SportsContentSkeleton() {
 
 function MatchCardSkeleton() {
   return (
-    <div className="border-border rounded-lg border p-4">
-      <div className="mb-4 flex items-center justify-between">
-        <Skeleton className="h-5 w-20" />
-        <Skeleton className="h-4 w-10" />
-      </div>
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex flex-1 flex-col items-center gap-2">
-          <Skeleton className="h-12 w-12 rounded-full" />
-          <Skeleton className="h-4 w-20" />
+    <div className="border-border overflow-hidden rounded-lg border">
+      <Skeleton className="aspect-video w-full rounded-none" />
+      <div className="p-4">
+        <div className="mb-4 flex items-center justify-between">
+          <Skeleton className="h-5 w-20" />
+          <Skeleton className="h-4 w-10" />
         </div>
-        <Skeleton className="h-4 w-6" />
-        <div className="flex flex-1 flex-col items-center gap-2">
-          <Skeleton className="h-12 w-12 rounded-full" />
-          <Skeleton className="h-4 w-20" />
-        </div>
+        <Skeleton className="h-5 w-3/4" />
       </div>
     </div>
   );
