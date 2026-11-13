@@ -10,16 +10,23 @@ import { SlidersHorizontal } from 'lucide-react';
 
 interface SportsContentProps {
   initialLive: Match[];
+  initialError?: boolean;
 }
 
-export function SportsContent({ initialLive }: SportsContentProps) {
+export function SportsContent({ initialLive, initialError = false }: SportsContentProps) {
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-  const { data: liveMatches = initialLive } = useQuery({
+  const {
+    data: liveMatches = initialLive,
+    isError,
+    isFetchedAfterMount,
+    refetch,
+  } = useQuery({
     queryKey: ['sports', 'live'],
     queryFn: getLiveMatches,
     initialData: initialLive,
+    initialDataUpdatedAt: initialError ? 0 : undefined,
     staleTime: 60 * 1000,
     refetchInterval: 60 * 1000,
   });
@@ -84,7 +91,19 @@ export function SportsContent({ initialLive }: SportsContentProps) {
             </Button>
           </div>
 
-          {visibleMatches.length === 0 ? (
+          {(isError || (initialError && !isFetchedAfterMount)) && liveMatches.length === 0 ? (
+            <div className="flex min-h-100 flex-col items-center justify-center gap-4 text-center">
+              <div>
+                <p className="font-medium">Live sports are temporarily unavailable.</p>
+                <p className="text-muted-foreground mt-1 text-sm">
+                  The sports provider could not be reached. Please try again shortly.
+                </p>
+              </div>
+              <Button variant="outline" onClick={() => refetch()}>
+                Try again
+              </Button>
+            </div>
+          ) : visibleMatches.length === 0 ? (
             <div className="flex min-h-100 items-center justify-center">
               <p className="text-muted-foreground">
                 {liveMatches.length === 0

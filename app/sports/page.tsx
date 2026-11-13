@@ -4,6 +4,8 @@ import { Navigation } from '@/components/navigation';
 import { SportsContentSkeleton } from '@/components/skeletons/sports-content-skeleton';
 import { Sports } from './sports';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Watch Live Sports Online Free | Streaminal',
   description:

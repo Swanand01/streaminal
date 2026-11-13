@@ -12,8 +12,8 @@ export function MatchCard({ match }: MatchCardProps) {
   const home = match.teams?.home;
   const away = match.teams?.away;
 
-  // Fall back to parsing the title ("Team A vs Team B") when team data isn't populated yet
-  const titleParts = match.title.split(/ vs\.? /i);
+  // Fall back to parsing common event title formats when team data isn't populated.
+  const titleParts = match.title.split(/ (?:vs\.?|at) /i);
   const homeName = home?.name || titleParts[0]?.trim() || 'TBD';
   const awayName = away?.name || titleParts[1]?.trim() || 'TBD';
 
