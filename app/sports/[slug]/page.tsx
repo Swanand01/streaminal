@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { Navigation } from '@/components/navigation';
 import { SportsDetailsSkeleton } from '@/components/skeletons/sports-details-skeleton';
 import { MatchContent } from './match-content';
-import { getLiveMatches } from '@/lib/sports';
 import { extractMatchIdFromSlug } from '@/lib/utils';
 
 interface MatchPageProps {
@@ -11,24 +10,14 @@ interface MatchPageProps {
 }
 
 export async function generateMetadata({ params }: MatchPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const matchId = extractMatchIdFromSlug(slug);
-  const liveMatches = await getLiveMatches().catch(() => []);
-  const match = liveMatches.find((m) => m.id === matchId);
-
-  if (!match) {
-    return {
-      title: 'Match Not Found | Streaminal',
-      description: 'The requested match could not be found.',
-    };
-  }
+  await params;
 
   return {
-    title: `Watch ${match.title} Live | Streaminal`,
-    description: `Stream ${match.title} live online free on Streaminal.`,
+    title: 'Watch Live Sports | Streaminal',
+    description: 'Stream this match live online free on Streaminal.',
     openGraph: {
-      title: `Watch ${match.title} Live | Streaminal`,
-      description: `Stream ${match.title} live online free.`,
+      title: 'Watch Live Sports | Streaminal',
+      description: 'Stream this match live online free.',
       type: 'website',
       siteName: 'Streaminal',
     },

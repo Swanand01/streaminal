@@ -2,31 +2,24 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Match, getLiveMatches } from '@/lib/sports';
+import { getLiveMatches } from '@/lib/sports';
 import { MatchCard } from '@/components/sports/match-card';
 import { SportsSidebar } from '@/components/sports/sports-sidebar';
 import { Button } from '@/components/ui/button';
 import { SlidersHorizontal } from 'lucide-react';
 
-interface SportsContentProps {
-  initialLive: Match[];
-  initialError?: boolean;
-}
-
-export function SportsContent({ initialLive, initialError = false }: SportsContentProps) {
+export function SportsContent() {
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const {
-    data: liveMatches = initialLive,
+    data: liveMatches = [],
     isError,
-    isFetchedAfterMount,
+    isLoading,
     refetch,
   } = useQuery({
     queryKey: ['sports', 'live'],
     queryFn: getLiveMatches,
-    initialData: initialLive,
-    initialDataUpdatedAt: initialError ? 0 : undefined,
     staleTime: 60 * 1000,
     refetchInterval: 60 * 1000,
   });
@@ -91,7 +84,7 @@ export function SportsContent({ initialLive, initialError = false }: SportsConte
             </Button>
           </div>
 
-          {(isError || (initialError && !isFetchedAfterMount)) && liveMatches.length === 0 ? (
+          {isError && liveMatches.length === 0 ? (
             <div className="flex min-h-100 flex-col items-center justify-center gap-4 text-center">
               <div>
                 <p className="font-medium">Live sports are temporarily unavailable.</p>
@@ -103,12 +96,14 @@ export function SportsContent({ initialLive, initialError = false }: SportsConte
                 Try again
               </Button>
             </div>
-          ) : visibleMatches.length === 0 ? (
+          ) : isLoading || visibleMatches.length === 0 ? (
             <div className="flex min-h-100 items-center justify-center">
               <p className="text-muted-foreground">
-                {liveMatches.length === 0
-                  ? 'No live matches right now. Check back soon.'
-                  : 'No live matches for the selected sport.'}
+                {isLoading
+                  ? 'Loading live matches...'
+                  : liveMatches.length === 0
+                    ? 'No live matches right now. Check back soon.'
+                    : 'No live matches for the selected sport.'}
               </p>
             </div>
           ) : (
