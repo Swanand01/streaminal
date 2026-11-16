@@ -19,12 +19,17 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: sportsHostname,
-        pathname: '/api/images/**',
+        pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'static.ppvservices.st',
-        pathname: '/assets/**',
+        hostname: 'streamfree.top',
+        pathname: '/thumbnails/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'a.espncdn.com',
+        pathname: '/i/teamlogos/**',
       },
     ],
   },

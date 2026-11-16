@@ -19,10 +19,7 @@ export interface Match {
   date: number;
   poster?: string;
   popular: boolean;
-  teams?: {
-    home?: MatchTeam;
-    away?: MatchTeam;
-  };
+  teams?: { home?: MatchTeam; away?: MatchTeam };
   sources: MatchSource[];
 }
 
@@ -35,196 +32,117 @@ export interface Stream {
   source: string;
 }
 
-interface PpvStream {
-  id: number;
+interface StreamFreeSource {
+  quality: string;
+  url: string;
+  live: boolean;
+}
+
+interface StreamFreeTeam {
   name: string;
-  source_tag?: string;
-  poster?: string;
-  starts_at: number;
-  ends_at: number;
-  always_live: number | boolean;
-  locale?: string;
-  iframe: string;
-  viewers?: string;
-  substreams?: PpvSubstream[];
+  logo?: string;
 }
 
-interface PpvSubstream {
-  id: number;
-  source_tag?: string;
-  locale?: string;
-  iframe: string;
-}
-
-interface PpvCategory {
+interface StreamFreeStream {
+  name: string;
   category: string;
-  streams: PpvStream[];
+  stream_key: string;
+  match_timestamp: number;
+  viewers?: number;
+  thumbnail_url?: string;
+  sources: StreamFreeSource[];
+  team1?: StreamFreeTeam;
+  team2?: StreamFreeTeam;
 }
 
-interface PpvResponse {
-  success: boolean;
-  timestamp: number;
-  streams: PpvCategory[];
-  error?: string;
+interface StreamFreeResponse {
+  count: number;
+  streams: StreamFreeStream[];
 }
 
-async function fetchPpvStreams(): Promise<PpvResponse> {
-  const url = `${SPORTS_BASE_URL}/streams`;
-  const startedAt = Date.now();
-  let response: Response;
+interface StreamFreeSourcesResponse {
+  stream_key: string;
+  sources: StreamFreeSource[];
+}
 
-  try {
-    response = await fetch(url, {
-      cache: 'no-store',
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        Origin: 'https://ppv.st',
-        Referer: 'https://ppv.st/',
-        'User-Agent':
-          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/140.0 Safari/537.36',
-      },
-    });
-  } catch (error) {
-    console.error(
-      'Sports API fetch failed',
-      JSON.stringify({
-        url,
-        durationMs: Date.now() - startedAt,
-        error: describeError(error),
-      })
-    );
-    throw error;
-  }
+async function fetchSportsApi<T>(path: string): Promise<T> {
+  const url = `${SPORTS_BASE_URL}/v1/${path}`;
+  const response = await fetch(url, {
+    headers: { Accept: 'application/json' },
+    next: { revalidate: 60 },
+  });
 
   if (!response.ok) {
-    console.error(
-      'Sports API returned an error',
-      JSON.stringify({
-        url,
-        durationMs: Date.now() - startedAt,
-        status: response.status,
-        statusText: response.statusText,
-        contentType: response.headers.get('content-type'),
-      })
-    );
     throw new Error(`Sports API error: ${response.status} ${response.statusText}`);
   }
 
-  const contentType = response.headers.get('content-type');
-  let data: Partial<PpvResponse>;
-
-  try {
-    data = (await response.json()) as Partial<PpvResponse>;
-  } catch (error) {
-    console.error(
-      'Sports API JSON parsing failed',
-      JSON.stringify({
-        url,
-        durationMs: Date.now() - startedAt,
-        status: response.status,
-        contentType,
-        error: describeError(error),
-      })
-    );
-    throw error;
-  }
-
-  if (!data.success || !Array.isArray(data.streams) || typeof data.timestamp !== 'number') {
-    console.error(
-      'Sports API returned an invalid response',
-      JSON.stringify({
-        url,
-        durationMs: Date.now() - startedAt,
-        status: response.status,
-        contentType,
-        success: data.success,
-        streamsType: Array.isArray(data.streams) ? 'array' : typeof data.streams,
-        timestampType: typeof data.timestamp,
-        error: data.error,
-        keys: Object.keys(data).slice(0, 20),
-      })
-    );
-    throw new Error(data.error || 'Sports API returned an invalid response');
-  }
-
-  return data as PpvResponse;
+  return (await response.json()) as T;
 }
 
-function describeError(error: unknown) {
-  if (!(error instanceof Error)) return { value: String(error) };
+async function fetchStreams(): Promise<StreamFreeResponse> {
+  const data = await fetchSportsApi<Partial<StreamFreeResponse>>('streams');
 
-  const cause = error.cause;
+  if (!Array.isArray(data.streams)) {
+    throw new Error('Sports API returned an invalid streams response');
+  }
+
   return {
-    name: error.name,
-    message: error.message,
-    cause:
-      cause instanceof Error
-        ? { name: cause.name, message: cause.message }
-        : cause == null
-          ? undefined
-          : String(cause),
+    count: typeof data.count === 'number' ? data.count : data.streams.length,
+    streams: data.streams,
   };
 }
 
-function isLive(stream: PpvStream, now: number): boolean {
-  return (
-    Boolean(stream.always_live) ||
-    (stream.starts_at > 0 && stream.starts_at <= now && stream.ends_at >= now)
-  );
+function toTeam(team?: StreamFreeTeam): MatchTeam | undefined {
+  if (!team) return undefined;
+  return { name: team.name, badge: team.logo || '' };
 }
 
-function toMatch(stream: PpvStream, category: string): Match {
+function toMatch(stream: StreamFreeStream): Match {
   return {
-    id: String(stream.id),
+    id: stream.stream_key,
     title: stream.name,
-    category,
-    date: stream.starts_at * 1000,
-    poster: stream.poster,
+    category: stream.category,
+    date: stream.match_timestamp * 1000,
+    poster: stream.thumbnail_url,
     popular: Number(stream.viewers || 0) > 0,
-    sources: [{ source: 'ppv', id: String(stream.id) }],
+    teams:
+      stream.team1 || stream.team2
+        ? { home: toTeam(stream.team1), away: toTeam(stream.team2) }
+        : undefined,
+    sources: [{ source: 'streamfree', id: stream.stream_key }],
   };
 }
 
-function toStream(
-  stream: Pick<PpvStream, 'id' | 'locale' | 'iframe' | 'source_tag'>,
-  streamNo: number
-): Stream {
+function toStream(stream: StreamFreeSource, streamKey: string, streamNo: number): Stream {
   return {
-    id: String(stream.id),
+    id: `${streamKey}-${streamNo}`,
     streamNo,
-    language: stream.locale || 'en',
-    hd: /(^|\s)HD(\s|$)/i.test(stream.source_tag || ''),
-    embedUrl: stream.iframe,
-    source: stream.source_tag || 'PPV',
+    language: 'en',
+    hd: /^(?:HD|FHD|4K)$/i.test(stream.quality),
+    embedUrl: stream.url,
+    source: stream.quality || 'StreamFree',
   };
 }
 
 export const getLiveMatches = cache(async (): Promise<Match[]> => {
-  const data = await fetchPpvStreams();
-
-  return data.streams.flatMap((category) =>
-    category.streams
-      .filter((stream) => isLive(stream, data.timestamp))
-      .map((stream) => toMatch(stream, category.category))
-  );
+  const data = await fetchStreams();
+  return data.streams.filter((stream) => stream.sources.some((source) => source.live)).map(toMatch);
 });
 
 export async function getMatchStreams(source: string, id: string): Promise<Stream[]> {
-  if (source !== 'ppv') return [];
+  if (source !== 'streamfree') return [];
 
-  const data = await fetchPpvStreams();
-  const match = data.streams
-    .flatMap((category) => category.streams)
-    .find((stream) => String(stream.id) === id);
+  const data = await fetchSportsApi<Partial<StreamFreeSourcesResponse>>(
+    `sources/${encodeURIComponent(id)}`
+  );
 
-  if (!match) return [];
+  if (!Array.isArray(data.sources)) return [];
 
-  return [
-    toStream(match, 1),
-    ...(match.substreams || []).map((stream, index) => toStream(stream, index + 2)),
-  ];
+  return data.sources
+    .filter((stream) => stream.live)
+    .map((stream, index) => toStream(stream, id, index + 1));
 }
 
 export function getBadgeUrl(id: string): string {
-  return `${SPORTS_BASE_URL}/images/badge/${id}.webp`;
+  return id;
 }

@@ -36,7 +36,7 @@ Create a `.env` file:
 ```bash
 NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_SPORTS_API_URL=your_sports_api_url
+NEXT_PUBLIC_SPORTS_API_URL=https://strmfree.pk/api
 ```
 
 ### Run Development Server
