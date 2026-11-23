@@ -43,12 +43,6 @@ export function Navigation() {
             >
               Anime
             </Link>
-            <Link
-              href="/sports"
-              className="text-foreground/80 hover:text-foreground text-md font-medium transition-colors"
-            >
-              Sports
-            </Link>
           </div>
         </div>
 
@@ -104,13 +98,6 @@ export function Navigation() {
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Anime
-                  </Link>
-                  <Link
-                    href="/sports"
-                    className="text-foreground/80 hover:text-foreground text-lg font-medium transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Sports
                   </Link>
                 </div>
               </SheetContent>
