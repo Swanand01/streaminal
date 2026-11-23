@@ -35,7 +35,7 @@ export function MediaCard({
       {onRemove && (
         <button
           onClick={onRemove}
-          className="bg-background/80 hover:bg-background absolute top-2 right-2 z-10 rounded-full p-1 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100"
+          className="bg-background/80 hover:bg-background absolute top-2 right-2 z-10 rounded-full p-1 opacity-100 backdrop-blur-sm transition-opacity group-hover:opacity-100 [@media(hover:hover)]:opacity-0"
           aria-label="Remove"
         >
           <X className="h-3 w-3" />
